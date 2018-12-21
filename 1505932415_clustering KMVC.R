@@ -104,6 +104,5 @@ table(fit.km$cluster, wine$Type)
 
 clusplot(wine, fit.km$cluster, color = TRUE, shade = TRUE)
 
-#this seems to be a pretty okay clustering, although some of the values in the groups seem to be located 
-#rather far from each other
+#this seems to be an okay clustering, the distances between values in each cluster seem not too large, on average.
 
