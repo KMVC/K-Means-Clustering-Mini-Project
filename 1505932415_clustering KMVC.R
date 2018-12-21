@@ -14,7 +14,8 @@ head(wine)
 
 # Exercise 1: Remove the first column from the data and scale
 # it using the scale() function
-scale(wine[,-1])
+wine <- scale(wine[,-1])
+
 
 # Now we'd like to cluster the data using K-Means. 
 # How do we decide how many clusters to use if you don't know that already?
@@ -63,8 +64,6 @@ wssplot(wine)
 
 library(NbClust)
 set.seed(1234)
-str(wine)
-str(winematrix)
 nc <- NbClust(wine[,-1], min.nc = 2, max.nc = 15, method="kmeans")
 barplot(table(nc$Best.n[1,]),
 	          xlab="Number of Clusters", ylab="Number of Criteria",
@@ -72,33 +71,39 @@ barplot(table(nc$Best.n[1,]),
 
 
 # Exercise 3: How many clusters does this method suggest?
-2
+3
 
 # Exercise 4: Once you've picked the number of clusters, run k-means 
 # using this number of clusters. Output the result of calling kmeans()
 # into a variable fit.km
-k = 2
+k = 3
 seed = 1234
 # fit.km <- kmeans(wine[,-1], centers = k, iter.max = 1000 )
-fit.km <- kmeans(wine[,-1], centers = k, iter.max = 1000 )
+fit.km <- kmeans(wine[,-1], centers = 3, iter.max = 1000 )
 fit.km
 # Now we want to evaluate how well this clustering does.
 
 # Exercise 5: using the table() function, show how the clusters in fit.km$clusters
 # compares to the actual wine types in wine$Type. Would you consider this a good
 # clustering?
+
+#eliminated wine$type before, so need to get it back
+data(wine, package="rattle.data")
+
+#tabe of fit.km and wine$Type
 table(fit.km$cluster, wine$Type)
 
 #I would consider this to be fairly good clustering, as most of the elements that were grouped 
-#together by Type in wine, are clustered together in fit.km (of 59 in group 1 in wine, 50 are in cluster 1 in
-#fit.km, of the 71 in group 2 in wine$Type, 67 are in cluster 2, and of the 48 in group 3 in wine$Type, 47
-#are in cluster 2, which means that they are still largely grouped together)
+#together by Type in wine, are clustered together in fit.km (of 59 in group 1 in wine, 59 are in cluster 3 in
+#fit.km, of the 71 in group 2 in wine$Type, 58 are in cluster 2, and of the 48 in group 3 in wine$Type, 48
+#are in cluster 1, which means that the clusters are still largely grouped together)
 
 # Exercise 6:
 # * Visualize these clusters using  function clusplot() from the cluster library
 # * Would you consider this a good clustering?)
-wineclusts
+
 clusplot(wine, fit.km$cluster, color = TRUE, shade = TRUE)
-#this seems to be an okay clustering, although some of the values in the groups seem to be located 
+
+#this seems to be a pretty okay clustering, although some of the values in the groups seem to be located 
 #rather far from each other
 
